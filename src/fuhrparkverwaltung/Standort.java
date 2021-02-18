@@ -1,6 +1,7 @@
 package fuhrparkverwaltung;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Standort {
 	private char name;
@@ -89,5 +90,40 @@ public class Standort {
 		default:
 			return false;
 		}
+	}
+
+	public HashMap<fahrzeugKlasse, Integer> getUebersichtWelcheFahrzeuge() {
+		int anzahlKL, anzahlTR, anzahlSP, anzahlKO, anzahlLU;
+		anzahlKL = anzahlTR = anzahlSP = anzahlKO = anzahlLU = 0;
+		for (Fahrzeug fahrzeug : stellplaetzeKLTR) {
+			switch(fahrzeug.getKlasse()) {
+				case KL:
+					anzahlKL++;
+					break;
+				case TR: 
+					anzahlTR++;
+			}
+		}
+		for (Fahrzeug fahrzeug : stellplaetzeSPKOLU) {
+			switch(fahrzeug.getKlasse()) {
+				case KO: 
+					anzahlKO++;
+					break;
+				case LU: 
+					anzahlLU++;
+					break;
+				case SP: 
+					anzahlSP++;
+					break;
+			}
+		}
+		
+		HashMap<fahrzeugKlasse, Integer> result = new HashMap<>();
+		result.put(fahrzeugKlasse.KL, anzahlKL);
+		result.put(fahrzeugKlasse.TR, anzahlTR);
+		result.put(fahrzeugKlasse.KO, anzahlKO);
+		result.put(fahrzeugKlasse.LU, anzahlLU);
+		result.put(fahrzeugKlasse.SP, anzahlSP);
+		return result;
 	}
 }
