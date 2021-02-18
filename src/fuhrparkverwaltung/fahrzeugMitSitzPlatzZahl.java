@@ -15,4 +15,14 @@ public class fahrzeugMitSitzPlatzZahl extends Fahrzeug {
 	public void setSitzPlatzZahl(int sitzPlatzZahl) {
 		this.sitzPlatzZahl = sitzPlatzZahl;
 	}
+	
+	@Override
+	public String toString() {
+		return(this.getKennzeichen() + "\n"
+				+ "		Klasse: " + this.getKlasse().getBezeichnung() + "\n"
+				+ "		Kilometerstand: " + this.getKmStand() + " \n"
+				+ "		Sitzplätze: " + this.getSitzPlatzZahl() + "\n"
+				+ "		Defekt: " + this.isDefekt() 
+		);
+	}
 }

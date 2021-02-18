@@ -66,29 +66,26 @@ public class Standort {
 		this.stellplaetzeKLTR = stellplaetzeKLTR;
 	}
 
-	public Standort(int anzahlStellplaetzeSPKOLU, int anzahlStellplaetzeKLTR) {
+	public Standort(int anzahlStellplaetzeSPKOLU, int anzahlStellplaetzeKLTR, char name) {
 		this.anzahlStellplaetzeKLundTR = anzahlStellplaetzeKLTR;
 		this.anzahlStellplaetzeSPundKOundLU = anzahlStellplaetzeSPKOLU;
+		this.stellplaetzeKLTR = new ArrayList<>();
+		this.stellplaetzeSPKOLU = new ArrayList<>();
+		this.name = name;
 	}
 	
-	public boolean fahrzeugParken(Fahrzeug fahrzeug) {
+	public void fahrzeugParken(Fahrzeug fahrzeug) {
 		switch(fahrzeug.getKlasse()) {
-		case SP, KO, LU:
-			if(this.stellplaetzeSPKOLU.size() < this.anzahlStellplaetzeSPundKOundLU) {
-				this.stellplaetzeSPKOLU.add(fahrzeug);
-				return true;
-			} else {
-				return false;
-			}
-		case KL, TR:
-			if(this.stellplaetzeKLTR.size() < this.anzahlStellplaetzeKLundTR) {
-				this.stellplaetzeKLTR.add(fahrzeug);
-				return true;
-			} else {
-				return false;
-			}
-		default:
-			return false;
+			case SP, KO, LU:
+				if(this.stellplaetzeSPKOLU.size() < this.anzahlStellplaetzeSPundKOundLU) {
+					this.stellplaetzeSPKOLU.add(fahrzeug);
+				}
+				break;
+			case KL, TR:
+				if(this.stellplaetzeKLTR.size() < this.anzahlStellplaetzeKLundTR) {
+					this.stellplaetzeKLTR.add(fahrzeug);
+				}
+				break;
 		}
 	}
 
@@ -102,6 +99,9 @@ public class Standort {
 					break;
 				case TR: 
 					anzahlTR++;
+					break;
+				default:
+					break;
 			}
 		}
 		for (Fahrzeug fahrzeug : stellplaetzeSPKOLU) {
@@ -115,6 +115,8 @@ public class Standort {
 				case SP: 
 					anzahlSP++;
 					break;
+				default:
+					break;
 			}
 		}
 		
@@ -124,6 +126,12 @@ public class Standort {
 		result.put(fahrzeugKlasse.KO, anzahlKO);
 		result.put(fahrzeugKlasse.LU, anzahlLU);
 		result.put(fahrzeugKlasse.SP, anzahlSP);
+		return result;
+	}
+
+	public ArrayList<Fahrzeug> getAlleFahrzeuge() {
+		ArrayList<Fahrzeug> result = stellplaetzeKLTR;
+		result.addAll(stellplaetzeSPKOLU);
 		return result;
 	}
 }

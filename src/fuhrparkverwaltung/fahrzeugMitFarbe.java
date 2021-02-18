@@ -17,4 +17,14 @@ public class fahrzeugMitFarbe extends Fahrzeug {
 	public void setFarbe(String farbe) {
 		this.farbe = farbe;
 	}
+
+	@Override
+	public String toString() {
+		return(this.getKennzeichen() + "\n"
+				+ "		Klasse: " + this.getKlasse().getBezeichnung() + "\n"
+				+ "		Kilometerstand: " + this.getKmStand() + " \n"
+				+ "		Farbe: " + this.getFarbe() + "\n"
+				+ "		Defekt: " + this.isDefekt() 
+		);
+	}
 }

@@ -15,5 +15,15 @@ public class fahrzeugMitPS extends Fahrzeug {
 	public void setPs(int ps) {
 		this.ps = ps;
 	}
+	
+	@Override
+	public String toString() {
+		return(this.getKennzeichen() + "\n"
+				+ "		Klasse: " + this.getKlasse().getBezeichnung() + "\n"
+				+ "		Kilometerstand: " + this.getKmStand() + " \n"
+				+ "		PS: " + this.getPs() + "\n"
+				+ "		Defekt: " + this.isDefekt() 
+		);
+	}
 }
 

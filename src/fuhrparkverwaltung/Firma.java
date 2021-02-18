@@ -17,5 +17,15 @@ public class Firma {
 		}
 		return result;
 	}
+
+	public ArrayList<Fahrzeug> getAlleFahrzeuge() {
+		ArrayList<Fahrzeug> result = new ArrayList<>(); 
+		for (Standort standort : standorte) {
+			for(Fahrzeug fahrzeug: standort.getAlleFahrzeuge()) {
+				result.add(fahrzeug);
+			}
+		}
+		return result;
+	}
 	
 }
