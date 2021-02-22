@@ -1,5 +1,8 @@
 package fuhrparkverwaltung;
 
+/**
+ * Enum welche Abstände der Standort beinhaltet.
+ */
 public enum standortAbstaende {
 	
 	AB(50),

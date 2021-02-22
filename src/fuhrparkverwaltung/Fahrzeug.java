@@ -1,11 +1,22 @@
 package fuhrparkverwaltung;
 
+/**
+ * Standard Fahrzeug Klasse
+ */
 public class Fahrzeug {
 	private int kmStand;
 	private boolean defekt;
 	private String kennzeichen;
 	private fahrzeugKlasse klasse;
-	
+
+	/**
+	 * Erstellt ein Fahrzeug, welches keine weitere Spezifikation als die Klasse hat.
+	 *
+	 * @param kmStand int den aktuellen Kilometerstand des Fahrzeugs
+	 * @param kennzeichen  ein Kennzeichen
+	 * @param klasse  Die Klasse des Fahrzeuges
+	 */
+
 	public Fahrzeug(int kmStand, String kennzeichen, fahrzeugKlasse klasse) {
 		this.kmStand = kmStand;
 		this.defekt = false;
