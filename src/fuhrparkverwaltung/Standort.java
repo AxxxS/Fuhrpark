@@ -1,6 +1,7 @@
 package fuhrparkverwaltung;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -155,4 +156,81 @@ public class Standort {
 		this.stellplaetzeKLTR = stellplaetzeKLTR;
 	}
 
+	public ArrayList<Fahrzeug> getFahrzeugeMitAttributUndWert(Class gesuchteKlasse, String wert) {
+		ArrayList<Fahrzeug> result = new ArrayList<Fahrzeug>();
+		
+		if(gesuchteKlasse == FahrzeugMitFarbe.class) {
+			for (Fahrzeug fahrzeug : this.stellplaetzeSPKOLU) {
+				if(fahrzeug instanceof FahrzeugMitFarbe) {
+					FahrzeugMitFarbe fzg = (FahrzeugMitFarbe) fahrzeug;
+					if(fzg.getFarbe().equalsIgnoreCase(wert)) {
+						result.add(fahrzeug);
+					}
+				}
+			}
+		} else if(gesuchteKlasse == FahrzeugMitPS.class) {
+			for (Fahrzeug fahrzeug : this.stellplaetzeSPKOLU) {
+				if(fahrzeug instanceof FahrzeugMitPS) {
+					FahrzeugMitPS fzg = (FahrzeugMitPS) fahrzeug;
+					if(fzg.getPs() == Integer.parseInt(wert)) {
+						result.add(fahrzeug);
+					}
+				}
+			}
+		} else if(gesuchteKlasse == FahrzeugMitSitzPlatzZahl.class) {
+			for (Fahrzeug fahrzeug : this.stellplaetzeKLTR) {
+				if(fahrzeug instanceof FahrzeugMitSitzPlatzZahl) {
+					FahrzeugMitSitzPlatzZahl fzg = (FahrzeugMitSitzPlatzZahl) fahrzeug;
+					if(fzg.getSitzPlatzZahl() == Integer.parseInt(wert)) {
+						result.add(fahrzeug);
+					}
+				}
+			}
+		}
+		
+		return result;
+	}
+
+	public Fahrzeug parkeAus(String kennzeichen, boolean defektSetzen) {
+		for (Fahrzeug fahrzeug : stellplaetzeKLTR) {
+			if(fahrzeug.getKennzeichen().equalsIgnoreCase(kennzeichen)) {
+				stellplaetzeKLTR.remove(stellplaetzeKLTR.indexOf(fahrzeug));
+				if(defektSetzen) {
+					fahrzeug.setDefekt(true);
+				}
+				return fahrzeug;
+			}
+		}
+		for (Fahrzeug fahrzeug : stellplaetzeSPKOLU) {
+			if(fahrzeug.getKennzeichen().equalsIgnoreCase(kennzeichen)) {
+				stellplaetzeSPKOLU.remove(stellplaetzeSPKOLU.indexOf(fahrzeug));
+				if(defektSetzen) {
+					fahrzeug.setDefekt(true);
+				}
+				return fahrzeug;
+			}
+		}
+		return null;
+	}
+
+	public String getZufaelligesFahrzeug(fahrzeugKlasse klasse) {		
+		switch(klasse) {
+			case SP, KO, LU:
+				for (Fahrzeug fahrzeug : stellplaetzeSPKOLU) {
+					if(fahrzeug.getKlasse() == klasse && !fahrzeug.isDefekt()) {
+						return fahrzeug.getKennzeichen();
+					}
+				}
+				break;
+			case KL, TR:
+				for (Fahrzeug fahrzeug : stellplaetzeKLTR) {
+					if(fahrzeug.getKlasse() == klasse && !fahrzeug.isDefekt()) {
+						return fahrzeug.getKennzeichen();
+					}
+				}
+				break;
+		}
+		return null;
+	}
+	
 }
