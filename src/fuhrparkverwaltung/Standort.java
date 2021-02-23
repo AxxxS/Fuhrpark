@@ -96,7 +96,8 @@ public class Standort {
 	 * @return Gibt eine ArrayList von Fahrzeugen auf dem Standort zurück
 	 */
 	public ArrayList<Fahrzeug> getAlleFahrzeuge() {
-		ArrayList<Fahrzeug> result = stellplaetzeKLTR;
+		ArrayList<Fahrzeug> result = new ArrayList<Fahrzeug>();
+		result.addAll(stellplaetzeKLTR);
 		result.addAll(stellplaetzeSPKOLU);
 		return result;
 	}
@@ -191,7 +192,8 @@ public class Standort {
 		return result;
 	}
 
-	public Fahrzeug parkeAus(String kennzeichen, boolean defektSetzen) {
+	public Fahrzeug fahrzeugAusparken(String kennzeichen) {
+
 		for (Fahrzeug fahrzeug : stellplaetzeKLTR) {
 			if(fahrzeug.getKennzeichen().equalsIgnoreCase(kennzeichen)) {
 				stellplaetzeKLTR.remove(stellplaetzeKLTR.indexOf(fahrzeug));
@@ -203,7 +205,9 @@ public class Standort {
 		}
 		for (Fahrzeug fahrzeug : stellplaetzeSPKOLU) {
 			if(fahrzeug.getKennzeichen().equalsIgnoreCase(kennzeichen)) {
+				System.out.println(stellplaetzeSPKOLU.size());
 				stellplaetzeSPKOLU.remove(stellplaetzeSPKOLU.indexOf(fahrzeug));
+				System.out.println(stellplaetzeSPKOLU.size());
 				if(defektSetzen) {
 					fahrzeug.setDefekt(true);
 				}
@@ -211,6 +215,22 @@ public class Standort {
 			}
 		}
 		return null;
+	}
+	
+	public boolean fahrzeugAufDefektSetzen(String kennzeichen) {
+		for (Fahrzeug fahrzeug : stellplaetzeKLTR) {
+			if(fahrzeug.getKennzeichen().equalsIgnoreCase(kennzeichen)) {
+				fahrzeug.setDefekt(true);
+				return true;
+			}
+		}
+		for (Fahrzeug fahrzeug : stellplaetzeSPKOLU) {
+			if(fahrzeug.getKennzeichen().equalsIgnoreCase(kennzeichen)) {
+				fahrzeug.setDefekt(true);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public String getZufaelligesFahrzeug(fahrzeugKlasse klasse) {		
@@ -232,5 +252,20 @@ public class Standort {
 		}
 		return null;
 	}
+
+	public Fahrzeug getFahrzeug(String kennzeichen) {
+		for (Fahrzeug fahrzeug : stellplaetzeKLTR) {
+			if(fahrzeug.getKennzeichen().equalsIgnoreCase(kennzeichen)) {
+				return fahrzeug;
+			}
+		}
+		for (Fahrzeug fahrzeug : stellplaetzeSPKOLU) {
+			if(fahrzeug.getKennzeichen().equalsIgnoreCase(kennzeichen)) {
+				return fahrzeug;
+			}
+		}
+		return null;
+	}
+
 	
 }

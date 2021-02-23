@@ -55,4 +55,5 @@ public class Fahrzeug {
 	public void setKlasse(fahrzeugKlasse klasse) {
 		this.klasse = klasse;
 	}
+	
 }

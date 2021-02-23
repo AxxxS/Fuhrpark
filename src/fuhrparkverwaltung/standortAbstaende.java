@@ -37,5 +37,63 @@ public enum standortAbstaende {
 		return abstand;
 	}
 	
+	public static int berechneAbstand(char Standort1, char Standort2) {
+		if(Standort1 != Standort2) {
+			String kombination = "" + Standort1 + Standort2;
+			String kombination2 = "" + Standort2 + Standort1;
+			for (standortAbstaende abstaendeBuchstabe : standortAbstaende.values()) {
+				if(abstaendeBuchstabe.name().equalsIgnoreCase(kombination) || abstaendeBuchstabe.name().equalsIgnoreCase(kombination2)) {
+					return abstaendeBuchstabe.getAbstand();
+				}
+			}
+			
+			/*switch(kombination) {
+				case "AB", "BA":
+					return standortAbstaende.AB.getAbstand();
+				case "AC", "CA":
+					return standortAbstaende.AC.getAbstand();
+				case "AD", "DA":
+					return standortAbstaende.AD.getAbstand();
+				case "AE", "EA":
+					return standortAbstaende.AE.getAbstand();
+				case "AF", "FA":
+					return standortAbstaende.AF.getAbstand();
+				case "AP", "PA":
+					return standortAbstaende.AP.getAbstand();
+				case "BC", "CB":
+					return standortAbstaende.BC.getAbstand();
+				case "BD", "DB":
+					return standortAbstaende.BD.getAbstand();
+				case "BE", "EB":
+					return standortAbstaende.BE.getAbstand();
+				case "BF", "FB":
+					return standortAbstaende.BF.getAbstand();
+				case "BP", "PB":
+					return standortAbstaende.BP.getAbstand();
+				case "CD", "DC":
+					return standortAbstaende.CD.getAbstand();
+				case "CE", "EC":
+					return standortAbstaende.CE.getAbstand();
+				case "CF", "FC":
+					return standortAbstaende.CF.getAbstand();
+				case "CP", "PC":
+					return standortAbstaende.CP.getAbstand();
+				case "DE", "ED":
+					return standortAbstaende.DE.getAbstand();
+				case "DF", "FD":
+					return standortAbstaende.DF.getAbstand();
+				case "DP", "PD":
+					return standortAbstaende.DP.getAbstand();
+				case "EF", "FE":
+					return standortAbstaende.EF.getAbstand();
+				case "EP", "PE":
+					return standortAbstaende.EP.getAbstand();
+				case "FP", "PF":
+					return standortAbstaende.FP.getAbstand();
+			}*/
+		}
+		return 0;
+	}
+	
 
 }
