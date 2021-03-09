@@ -1,7 +1,7 @@
 package fuhrparkverwaltung;
 
 /**
- * Unterklasse von Fahrzeuge und Fahrzeug mit dem Attribut Farbe
+ * Unterklasse von Fahrzeug, die eine Farbe als zus‰tzliches Attribut enth‰lt
  */
 public class FahrzeugMitFarbe extends Fahrzeug {
 	private String farbe;
@@ -9,9 +9,9 @@ public class FahrzeugMitFarbe extends Fahrzeug {
 	/**
 	 * Erstellt ein Objekt der Klasse Fahrzeug mit Farbe.
 	 * @param kmStand aktueller Kilometerstand
-	 * @param kennzeichen ein Kennzeichen des Fahrzeugs
-	 * @param farbe	die Farbe des Fahrzeugs
-	 * @param klasse die Klasse des Fahrzeugs
+	 * @param kennzeichen das Kennzeichen
+	 * @param farbe	die Farbe
+	 * @param klasse die Fahrzeugklasse
 	 */
 	public FahrzeugMitFarbe(int kmStand, String kennzeichen, String farbe, fahrzeugKlasse klasse) {
 		super(kmStand, kennzeichen, klasse);
@@ -22,22 +22,17 @@ public class FahrzeugMitFarbe extends Fahrzeug {
 		return farbe;
 	}
 
-	public void setFarbe(String farbe) {
-		this.farbe = farbe;
-	}
-
 	/**
-	 * Nimmt alle Atribute des Objekts und genereriert einen String mit allen Information zum zugeh√∂rigen Objekt.
-	 * Beinhaltet Informationen, wie Klasse, Kilometerstand, Farbe und den aktuellen Defektstatus.
-	 * @return Gibt einen String mit den Information zum Fahrzeug zur√ºck
+	 * Erstellt eine Zeichenketten-Darstellung mit allen Information zum Fahrzeug
+	 * @return die Zeichenketten-Darstellung zum Fahrzeug
 	 */
 	@Override
 	public String toString() {
-		return(this.getKennzeichen() + "\n"
-				+ "		Klasse: " + this.getKlasse().getBezeichnung() + "\n"
-				+ "		Kilometerstand: " + this.getKmStand() + " \n"
-				+ "		Farbe: " + this.getFarbe() + "\n"
-				+ "		Defekt: " + this.isDefekt() 
+		return("\t" + this.getKennzeichen() + "\n"
+				+ "\t- Klasse: " + this.getKlasse().getBezeichnung() + "\n"
+				+ "\t- Kilometerstand: " + this.getKmStand() + " \n"
+				+ "\t- Farbe: " + this.getFarbe() + "\n"
+				+ "\t- Defekt: " + this.isDefekt() 
 		);
 	}
 }

@@ -1,15 +1,15 @@
 package fuhrparkverwaltung;
 /**
- * Unterklasse von Fahrzeuge und Fahrzeug mit dem Attribut PS-Zahl
+ * Unterklasse von Fahrzeug, die eine PS-Zahl als zus‰tzliches Attribut enth‰lt
  */
 public class FahrzeugMitPS extends Fahrzeug {
 	private int ps;
 	/**
 	 * Erstellt ein Objekt der Klasse Fahrzeug mit PS-Zahl.
 	 * @param kmStand aktueller Kilometerstand
-	 * @param kennzeichen ein Kennzeichen des Fahrzeugs
-	 * @param ps	die PS-Zahl des Fahrzeugs
-	 * @param klasse die Klasse des Fahrzeugs
+	 * @param kennzeichen das Kennzeichen
+	 * @param ps	die PS-Zahl 
+	 * @param klasse die Fahrzeugklasse
 	 */
 	public FahrzeugMitPS(int kmStand, String kennzeichen, int ps, fahrzeugKlasse klasse) {
 		super(kmStand, kennzeichen, klasse);
@@ -20,21 +20,17 @@ public class FahrzeugMitPS extends Fahrzeug {
 		return ps;
 	}
 
-	public void setPs(int ps) {
-		this.ps = ps;
-	}
 	/**
-	 * Nimmt alle Atribute des Fahrzeugs und genereriert einen String mit allen Information zum zugeh√∂rigen Fahrzeugs.
-	 * Beinhaltet Informationen, wie Klasse, Kilometerstand, Farbe und den aktuellen Defektstatus.
-	 * @return Gibt einen String mit den Information zum Fahrzeug zur√ºck
+	 * Erstellt eine Zeichenketten-Darstellung mit allen Information zum Fahrzeug
+	 * @return die Zeichenketten-Darstellung zum Fahrzeug
 	 */
 	@Override
 	public String toString() {
-		return(this.getKennzeichen() + "\n"
-				+ "		Klasse: " + this.getKlasse().getBezeichnung() + "\n"
-				+ "		Kilometerstand: " + this.getKmStand() + " \n"
-				+ "		PS: " + this.getPs() + "\n"
-				+ "		Defekt: " + this.isDefekt() 
+		return("\t" + this.getKennzeichen() + "\n"
+				+ "\t- Klasse: " + this.getKlasse().getBezeichnung() + "\n"
+				+ "\t- Kilometerstand: " + this.getKmStand() + " \n"
+				+ "\t- PS: " + this.getPs() + "\n"
+				+ "\t- Defekt: " + this.isDefekt() 
 		);
 	}
 }

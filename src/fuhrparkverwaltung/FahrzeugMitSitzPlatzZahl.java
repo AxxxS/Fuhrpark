@@ -1,7 +1,7 @@
 package fuhrparkverwaltung;
 
 /**
- * Unterklasse von Fahrzeuge und Fahrzeug mit dem Attribut Sitzplatzzahl
+ * Unterklasse von Fahrzeug, die eine Sitzplatz-Zahl als zusätzliches Attribut enthält
  */
 public class FahrzeugMitSitzPlatzZahl extends Fahrzeug {
 	private int sitzPlatzZahl;
@@ -9,9 +9,9 @@ public class FahrzeugMitSitzPlatzZahl extends Fahrzeug {
 	/**
 	 * Erstellt ein Objekt der Klasse Fahrzeug mit Sitzplatzzahl.
 	 * @param kmStand aktueller Kilometerstand
-	 * @param kennzeichen ein Kennzeichen des Fahrzeugs
-	 * @param sitzPlatzZahl	die Sitzplatzzahl des Fahrzeugs
-	 * @param klasse die Klasse des Fahrzeugs
+	 * @param kennzeichen das Kennzeichen 
+	 * @param sitzPlatzZahl	die Sitzplatzzahl
+	 * @param klasse die Fahrzeugklasse
 	 */
 	public FahrzeugMitSitzPlatzZahl(int kmStand, String kennzeichen, int sitzPlatzZahl, fahrzeugKlasse klasse) {
 		super(kmStand, kennzeichen, klasse);
@@ -22,21 +22,17 @@ public class FahrzeugMitSitzPlatzZahl extends Fahrzeug {
 		return sitzPlatzZahl;
 	}
 
-	public void setSitzPlatzZahl(int sitzPlatzZahl) {
-		this.sitzPlatzZahl = sitzPlatzZahl;
-	}
 	/**
-	 * Nimmt alle Atribute des Fahrzeugs und genereriert einen String mit allen Information zum zugehÃ¶rigen Fahrzeugs.
-	 * Beinhaltet Informationen, wie Klasse, Kilometerstand, Farbe und den aktuellen Defektstatus.
-	 * @return Gibt einen String mit den Information zum Fahrzeug zurÃ¼ck
+	 * Erstellt eine Zeichenketten-Darstellung mit allen Information zum Fahrzeug
+	 * @return die Zeichenketten-Darstellung zum Fahrzeug
 	 */
 	@Override
 	public String toString() {
-		return(this.getKennzeichen() + "\n"
-				+ "		Klasse: " + this.getKlasse().getBezeichnung() + "\n"
-				+ "		Kilometerstand: " + this.getKmStand() + " \n"
-				+ "		Sitzplï¿½tze: " + this.getSitzPlatzZahl() + "\n"
-				+ "		Defekt: " + this.isDefekt() 
+		return("\t" + this.getKennzeichen() + "\n"
+				+ "\t- Klasse: " + this.getKlasse().getBezeichnung() + "\n"
+				+ "\t- Kilometerstand: " + this.getKmStand() + " \n"
+				+ "\t- Sitzplaetze: " + this.getSitzPlatzZahl() + "\n"
+				+ "\t- Defekt: " + this.isDefekt() 
 		);
 	}
 }

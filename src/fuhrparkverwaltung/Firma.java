@@ -3,6 +3,9 @@ package fuhrparkverwaltung;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Oberste Datenstruktur der Fuhrparkverwaltung, die alle Standorte und von der App aufzurufenden Methoden enthält
+ */
 public class Firma {
 	private ArrayList<Standort> standorte;
 
@@ -15,104 +18,189 @@ public class Firma {
 	}
 
 	/**
-	 * Durchsucht alle Standorte der Firma und erstellt eine HashMap mit allen Informationen zum Standort und den darauf
-	 * sich befindenden Fahrzeugen
-	 * @return HashMap mit Standort als Key und einer HashMap mit den Fahrzeugen an der Position auf dem Standort als values
+	 * Durchsucht alle Standorte der Firma und erstellt eine HashMap mit allen Informationen zum Standort und den sich dort
+	 * befindendlichen Fahrzeugen
+	 * @return HashMap mit Standort-Buchstabe als Key und einer weiteren HashMap, die zu jeder Fahrzeugklasse die entsprechende Bestandsanzahl enthält, als Value
 	 */
 	public HashMap<Character, HashMap<fahrzeugKlasse, Integer>> getUerbersichtWoWelcheFahrzeugArt() {
-		HashMap<Character, HashMap<fahrzeugKlasse, Integer>> result = new HashMap<>();
+		HashMap<Character, HashMap<fahrzeugKlasse, Integer>> ergebnis = new HashMap<>();
 		for (Standort standort : standorte) {
-			 result.put(standort.getName(), standort.getUebersichtWelcheFahrzeuge());
+			 ergebnis.put(standort.getName(), standort.getUebersichtWelcheFahrzeuge());
 		}
-		return result;
+		return ergebnis;
 	}
 
 	/**
-	 * ZÃ¤hlt alle Fahrzeuge die auf den Standorten der Firma verteilt sind zusammen.
-	 * @return gibt eine ArrayList mit allen Fahrzeugen
+	 * Gibt alle Fahrzeuge die auf die Standorte der Firma verteilt sind zurück.
+	 * @return Die Liste aller Fahrzeuge
 	 */
 	public ArrayList<Fahrzeug> getAlleFahrzeuge() {
-		ArrayList<Fahrzeug> result = new ArrayList<>(); 
+		ArrayList<Fahrzeug> ergebnis = new ArrayList<>(); 
 		for (Standort standort : standorte) {
 			for(Fahrzeug fahrzeug: standort.getAlleFahrzeuge()) {
-				result.add(fahrzeug);
+				ergebnis.add(fahrzeug);
 			}
 		}
-		return result;
+		return ergebnis;
 	}
 	
+	/**
+	 * Gibt eine Liste von Fahrzeugen aller Standorte aus, die alle einen bestimmten Wert im Sonderattribut stehen haben
+	 * @param gesuchteKlasse Klasse der gesuchten Fahrzeuge, je nach gewünschtem Sonderattribut
+	 * @param wert Wert des Sonderattributes
+	 * @return Liste von allen Fahrzeugen aller Standorte mit dem gewünschten Wert im Sonderattribut
+	 */
 	public ArrayList<Fahrzeug> getFahrzeugeMitAttributUndWert(Class gesuchteKlasse, String wert) {
-		ArrayList<Fahrzeug> result = new ArrayList<Fahrzeug>();
+		ArrayList<Fahrzeug> ergebnis = new ArrayList<Fahrzeug>();
 		
 		for (Standort standort : standorte) {
-			result.addAll(standort.getFahrzeugeMitAttributUndWert(gesuchteKlasse, wert));
+			ergebnis.addAll(standort.getFahrzeugeMitAttributUndWert(gesuchteKlasse, wert));
 		}
 		
-		return result;
+		return ergebnis;
 	}
 
-	public ArrayList<Fahrzeug> defektUndAustauschen(String kennzeichen) {
-		ArrayList<Fahrzeug> result = new ArrayList<>();
+	/**
+	 * Tauscht ein bestimmtes defektes Fahrzeug mit einem Fahrzeug des Selben Types vom zentralen Parkplatz aus
+	 * @param kennzeichen Kennzeichen des Fahrzeuges
+	 * @return Das ausgetauschte und das Ersatzfahrzeug in einer Liste, sofern alles geklappt hat. Wenn kein Ersatzfahrzeug gefunden wurde,
+	 * 			enthält die Liste nur das zum zentralen Parkplatz verschobene defekte Fahrzeug, wenn das angegebene Kennzeichen nicht gefunden werden konnte,
+	 * 			ist die Liste leer.
+	 */
+	public ArrayList<Fahrzeug> defektesFahrzeugAustauschen(String kennzeichen) {
+		ArrayList<Fahrzeug> tauschpaar = new ArrayList<>();
+		Standort standortDefektesFahrzeug, standortTauschPartner;
+		Fahrzeug defektesFahrzeug, tauschPartner;
 		
-		char aktuellerStandortBuchtstabe = fahrzeugStandortFinden(kennzeichen);
-		if(aktuellerStandortBuchtstabe != 'N') {
-			Standort aktuellerStandort = getStandortNachName(aktuellerStandortBuchtstabe);
-			if(aktuellerStandort != null) {
-				if(aktuellerStandort.fahrzeugAufDefektSetzen(kennzeichen)) {
-					fahrzeugVerschieben(kennzeichen, 'P');
-					//ZENTRALEN PARKPLATZ FINDEN und Zufälliges FZG der selben Klasse abrufen, danach verschieben
+		standortDefektesFahrzeug = getFahrzeugStandort(kennzeichen);
+		
+		if(standortDefektesFahrzeug != null) {
+			defektesFahrzeug = standortDefektesFahrzeug.fahrzeugAusparken(kennzeichen);
+			defektesFahrzeug.setDefekt(true);
+			tauschpaar.add(defektesFahrzeug);
+			
+			standortTauschPartner = getStandort('P');
+			
+			if(standortTauschPartner != null) {
+				tauschPartner = standortTauschPartner.klassenFahrzeugAusparkenMitGeringstemKilometerstand(defektesFahrzeug.getKlasse());
+				if(tauschPartner != null) {
+					tauschpaar.add(tauschPartner);
+					
+					int distanz = standortAbstaende.berechneAbstand(standortDefektesFahrzeug.getName(), standortTauschPartner.getName());
+					tauschPartner.setKmStand(tauschPartner.getKmStand() + distanz);
+					
+					standortDefektesFahrzeug.fahrzeugParken(tauschPartner);
+					standortTauschPartner.fahrzeugParken(defektesFahrzeug);
+				} else {
+					standortDefektesFahrzeug.fahrzeugParken(defektesFahrzeug);
 				}
 			}
-		}
-		return result;
-	}
-	
-	public boolean fahrzeugVerschieben(String kennzeichen, char zielStandort) {
-		boolean result = false;	
-		char jetzigerStandort = fahrzeugStandortFinden(kennzeichen);
-		
-		Standort vorher = getStandortNachName(jetzigerStandort);
-		Fahrzeug fahrzeug = vorher.fahrzeugAusparken(kennzeichen);
-		if(!fahrzeug.isDefekt()) {
-			int entfernung = standortAbstaende.berechneAbstand(jetzigerStandort, zielStandort);
-			fahrzeug.setKmStand(fahrzeug.getKmStand() + entfernung);
-		}
-		Standort nachher = getStandortNachName(zielStandort);
-		nachher.fahrzeugParken(fahrzeug);
-		
-		return result;
-	}
-	
-	public char fahrzeugStandortFinden(String kennzeichen) {
-		for (Standort standort : standorte) {
-			if(standort.getFahrzeug(kennzeichen) != null) {
-				return standort.getName();
+			else {
+				standortDefektesFahrzeug.fahrzeugParken(defektesFahrzeug);
 			}
 		}
-		return 'N';
+		
+		return tauschpaar;
 	}
 	
-	public Standort getStandortNachName(char name) {
-		for (Standort standort : standorte) {
+	private Standort getStandort(char name) {
+		for(Standort standort : standorte) {
 			if(standort.getName() == name) {
 				return standort;
 			}
 		}
+		
+		return null;
+	}	
+	
+	/**
+	 * Gibt den Standort eines bestimmten Fahrzeuges zurück
+	 * @param kennzeichen Kennzeichen des Fahrzeuges
+	 * @return Standort des Fahrzeuges
+	 */
+	private Standort getFahrzeugStandort(String kennzeichen) {
+		for (Standort standort : standorte) {
+			if(standort.getFahrzeug(kennzeichen) != null) {
+				return standort;
+			}
+		}
+		
 		return null;
 	}
 	
-	public fahrzeugKlasse getFahrzeugKlasse(String kennzeichen) {
-		char standortBuchstabe = fahrzeugStandortFinden(kennzeichen);
-		if(standortBuchstabe != 'N') {
-			Standort standort = getStandortNachName(standortBuchstabe);
-			if(standort != null) {
-				Fahrzeug fahrzeug = standort.getFahrzeug(kennzeichen);
-				if(fahrzeug != null) {
-					return fahrzeug.getKlasse();
+	/**
+	 * Verschiebt ein bestimmtes Fahrzeug an einen neuen Standort
+	 * @param kennzeichen Kennzeichen des zu verschiebenden Fahrzeuges
+	 * @param zielStandortName Buchstabe des neuen Standortes
+	 * @return Ergebnis des Verschiebens:
+	 * 		   0 wenn das Fahrzeug oder einer der Standorte nicht gefunden wurde;
+	 * 		   1 wenn alles geklappt hat;
+	 * 		  -1 wenn beide Standorte gleich sind;
+	 * 		  -2 wenn am Zielstandort kein Platz ist
+	 */
+	public int verschieben(String kennzeichen, char zielStandortName) {
+		
+		Standort standortVorher, standortNachher;
+		Fahrzeug fahrzeug;
+		
+		standortVorher = getFahrzeugStandort(kennzeichen);
+		standortNachher = getStandort(zielStandortName);
+		
+		if(standortVorher == standortNachher) return -1; //Steht schon richtig
+		
+		if(standortVorher != null && standortNachher != null) {
+			fahrzeug = standortVorher.fahrzeugAusparken(kennzeichen);
+			int distanz = standortAbstaende.berechneAbstand(standortVorher.getName(), standortNachher.getName());
+			
+			if(standortNachher.fahrzeugParken(fahrzeug)) {
+				fahrzeug.setKmStand(fahrzeug.getKmStand() + distanz);
+				return 1; //Hat geklappt
+			}
+			
+			else {
+				standortVorher.fahrzeugParken(fahrzeug);
+				return -2; //Kein Platz
+			}
+		}
+		
+		return 0; //Standort nicht gefunden
+	}
+
+	/**
+	 * Verschiebt ein Fahrzeug einer bestimmten Klasse von einem Standort an einen Anderen
+	 * @param klasse Klasse des Fahrzeuges
+	 * @param vonStandort Vorheriger Standort
+	 * @param zuStandort neuer Standort
+	 * @return Ergebnis des Verschiebens:
+	 * 		   0 wenn entweder kein Fahrzeug oder einer der Standorte nicht gefunden wurde;
+	 * 		   1 wenn alles geklappt hat;
+	 * 		  -1 wenn beide Standorte gleich sind;
+	 * 		  -2 wenn am Zielstandort kein Platz ist
+	 */
+	public int verschieben(fahrzeugKlasse klasse, char vonStandort, char zuStandort) {
+		Standort standortVorher, standortNachher;
+		Fahrzeug fahrzeug;
+		
+		standortVorher = getStandort(vonStandort);
+		standortNachher = getStandort(zuStandort);
+		
+		if(standortVorher == standortNachher) return -1; //Steht schon richtig
+		
+		if(standortVorher != null && standortNachher != null) {
+			fahrzeug = standortVorher.klassenFahrzeugAusparkenMitGeringstemKilometerstand(klasse);
+			if(fahrzeug != null) {
+				int distanz = standortAbstaende.berechneAbstand(standortVorher.getName(), standortNachher.getName());
+				
+				if(standortNachher.fahrzeugParken(fahrzeug)) {
+					fahrzeug.setKmStand(fahrzeug.getKmStand() + distanz);
+					return 1; //Hat geklappt
+				} else {
+					standortVorher.fahrzeugParken(fahrzeug);
+					return -2; //Kein Platz
 				}
 			}
 		}
-		return null;
+		return 0; //Standort nicht gefunden
 	}
 	
 }

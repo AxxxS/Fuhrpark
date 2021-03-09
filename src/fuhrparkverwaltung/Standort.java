@@ -5,20 +5,23 @@ import java.util.Collection;
 import java.util.HashMap;
 
 /**
- * Standard Standort Klasse
+ * Enthält alle Informationen und Methoden zu einem einzelnen Standort der Firma mit Stellplätzen
  */
 public class Standort {
 	private char name;
-	private float x, y;
 	private int anzahlStellplaetzeSPundKOundLU, anzahlStellplaetzeKLundTR;
 	private ArrayList<Fahrzeug> stellplaetzeSPKOLU;
 	private ArrayList<Fahrzeug> stellplaetzeKLTR;
 
+	public char getName() {
+		return name;
+	}
+
 	/**
-	 * Erstellt einen Standort, auf welchem sich Fahrzeuge befindet.
-	 * @param anzahlStellplaetzeSPKOLU Anzahl der StellplÃ¤tze fÃ¼r Fahrzeuge der Klasse Sportwagen, Kompaktklasse und Luxusklasse
-	 * @param anzahlStellplaetzeKLTR Anzahl der StellplÃ¤tze fÃ¼r Fahrzeuge der Klasse
-	 * @param name Character der den Namen eines Standortes darstellt
+	 * Erstellt einen Standort, auf welchem sich Fahrzeuge befinden.
+	 * @param anzahlStellplaetzeSPKOLU Anzahl der Stellplätze für Fahrzeuge der Klassen Sportwagen, Kompaktklasse und Luxusklasse
+	 * @param anzahlStellplaetzeKLTR Anzahl der Stellplätze für Fahrzeuge der Klassen Kleinbus und Transporter
+	 * @param name Buchstabe der den Namen eines Standortes darstellt
 	 */
 	public Standort(int anzahlStellplaetzeSPKOLU, int anzahlStellplaetzeKLTR, char name) {
 		this.anzahlStellplaetzeKLundTR = anzahlStellplaetzeKLTR;
@@ -29,27 +32,31 @@ public class Standort {
 	}
 
 	/**
-	 * Parkt die Fahrzeuge auf den zugehÃ¶rigen Parkplatz des Standorts, je nach der Klasse des Fahrzeugs.
+	 * Parkt ein Fahrzeug auf dem zugehörigen Parkplatz des Standorts, je nach Klasse des Fahrzeugs.
 	 * @param fahrzeug ein Fahrzeug welches auf dem Parkplatz abgestellt werden soll
+	 * @return Ergebnis der Operation, true wenn alles funktioniert hat, false wenn kein Platz mehr frei war
 	 */
-	public void fahrzeugParken(Fahrzeug fahrzeug) {
+	public boolean fahrzeugParken(Fahrzeug fahrzeug) {
 		switch(fahrzeug.getKlasse()) {
 			case SP, KO, LU:
 				if(this.stellplaetzeSPKOLU.size() < this.anzahlStellplaetzeSPundKOundLU) {
 					this.stellplaetzeSPKOLU.add(fahrzeug);
+					return true;
 				}
 				break;
 			case KL, TR:
 				if(this.stellplaetzeKLTR.size() < this.anzahlStellplaetzeKLundTR) {
 					this.stellplaetzeKLTR.add(fahrzeug);
+					return true;
 				}
 				break;
 		}
+		return false;
 	}
 
 	/**
-	 * Erstellt eine Ãœbersicht Ã¼ber die Anzahl von Fahrzeugen einer Fahrzeugklassen, die sich auf dem Standort befinden.
-	 * @return gibt eine HashMap zurÃ¼ck, die als key die Klasse des Fahrzeugs hat und als value den zugehÃ¶rigen Parkplatz
+	 * Erstellt eine Übersicht über die Anzahl von Fahrzeugen jeder Fahrzeugklasse, die sich am Standort befinden.
+	 * @return eine HashMap, die jeder Fahrzeugklasse die auf dem Parkplatz abgestellte Anzahl an Fahrzeugen zuordnet
 	 */
 	public HashMap<fahrzeugKlasse, Integer> getUebersichtWelcheFahrzeuge() {
 		int anzahlKL, anzahlTR, anzahlSP, anzahlKO, anzahlLU;
@@ -82,90 +89,41 @@ public class Standort {
 			}
 		}
 		
-		HashMap<fahrzeugKlasse, Integer> result = new HashMap<>();
-		result.put(fahrzeugKlasse.KL, anzahlKL);
-		result.put(fahrzeugKlasse.TR, anzahlTR);
-		result.put(fahrzeugKlasse.KO, anzahlKO);
-		result.put(fahrzeugKlasse.LU, anzahlLU);
-		result.put(fahrzeugKlasse.SP, anzahlSP);
-		return result;
+		HashMap<fahrzeugKlasse, Integer> ergebnis = new HashMap<>();
+		ergebnis.put(fahrzeugKlasse.KL, anzahlKL);
+		ergebnis.put(fahrzeugKlasse.TR, anzahlTR);
+		ergebnis.put(fahrzeugKlasse.KO, anzahlKO);
+		ergebnis.put(fahrzeugKlasse.LU, anzahlLU);
+		ergebnis.put(fahrzeugKlasse.SP, anzahlSP);
+		return ergebnis;
 	}
 
 	/**
-	 * Erstellt eine Liste, welche alle Fahrzeuge enthÃ¤lt, die auf dem Standort geparkt sind.
-	 * @return Gibt eine ArrayList von Fahrzeugen auf dem Standort zurÃ¼ck
+	 * Erstellt eine Liste, welche alle Fahrzeuge enthält, die am Standort geparkt sind.
+	 * @return eine ArrayList von Fahrzeugen an dem Standort
 	 */
 	public ArrayList<Fahrzeug> getAlleFahrzeuge() {
-		ArrayList<Fahrzeug> result = new ArrayList<Fahrzeug>();
-		result.addAll(stellplaetzeKLTR);
-		result.addAll(stellplaetzeSPKOLU);
-		return result;
+		ArrayList<Fahrzeug> ergebnis = new ArrayList<Fahrzeug>();
+		ergebnis.addAll(stellplaetzeKLTR);
+		ergebnis.addAll(stellplaetzeSPKOLU);
+		return ergebnis;
 	}
-	public char getName() {
-		return name;
-	}
-
-	public void setName(char name) {
-		this.name = name;
-	}
-
-	public float getX() {
-		return x;
-	}
-
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public float getY() {
-		return y;
-	}
-
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	public int getAnzahlStellplaetzeSPundKOundLU() {
-		return anzahlStellplaetzeSPundKOundLU;
-	}
-
-	public void setAnzahlStellplaetzeSPundKOundLU(int anzahlStellplaetzeSPundKOundLU) {
-		this.anzahlStellplaetzeSPundKOundLU = anzahlStellplaetzeSPundKOundLU;
-	}
-
-	public int getAnzahlStellplaetzeKLundTR() {
-		return anzahlStellplaetzeKLundTR;
-	}
-
-	public void setAnzahlStellplaetzeKLundTR(int anzahlStellplaetzeKLundTR) {
-		this.anzahlStellplaetzeKLundTR = anzahlStellplaetzeKLundTR;
-	}
-
-	public ArrayList<Fahrzeug> getStellplaetzeSPKOLU() {
-		return stellplaetzeSPKOLU;
-	}
-
-	public void setStellplaetzeSPKOLU(ArrayList<Fahrzeug> stellplaetzeSPKOLU) {
-		this.stellplaetzeSPKOLU = stellplaetzeSPKOLU;
-	}
-
-	public ArrayList<Fahrzeug> getStellplaetzeKLTR() {
-		return stellplaetzeKLTR;
-	}
-
-	public void setStellplaetzeKLTR(ArrayList<Fahrzeug> stellplaetzeKLTR) {
-		this.stellplaetzeKLTR = stellplaetzeKLTR;
-	}
-
+	
+	/**
+	 * Gibt eine Liste von Fahrzeugen am Standort aus, die alle einen bestimmten Wert im Sonderattribut stehen haben
+	 * @param gesuchteKlasse Klasse der gesuchten Fahrzeuge, je nach gewünschtem Sonderattribut
+	 * @param wert Wert des Sonderattributes
+	 * @return Liste von allen Fahrzeugen am Standort mit dem gewünschten Wert im Sonderattribut
+	 */
 	public ArrayList<Fahrzeug> getFahrzeugeMitAttributUndWert(Class gesuchteKlasse, String wert) {
-		ArrayList<Fahrzeug> result = new ArrayList<Fahrzeug>();
+		ArrayList<Fahrzeug> ergebnis = new ArrayList<Fahrzeug>();
 		
 		if(gesuchteKlasse == FahrzeugMitFarbe.class) {
 			for (Fahrzeug fahrzeug : this.stellplaetzeSPKOLU) {
 				if(fahrzeug instanceof FahrzeugMitFarbe) {
 					FahrzeugMitFarbe fzg = (FahrzeugMitFarbe) fahrzeug;
 					if(fzg.getFarbe().equalsIgnoreCase(wert)) {
-						result.add(fahrzeug);
+						ergebnis.add(fahrzeug);
 					}
 				}
 			}
@@ -174,7 +132,7 @@ public class Standort {
 				if(fahrzeug instanceof FahrzeugMitPS) {
 					FahrzeugMitPS fzg = (FahrzeugMitPS) fahrzeug;
 					if(fzg.getPs() == Integer.parseInt(wert)) {
-						result.add(fahrzeug);
+						ergebnis.add(fahrzeug);
 					}
 				}
 			}
@@ -183,40 +141,43 @@ public class Standort {
 				if(fahrzeug instanceof FahrzeugMitSitzPlatzZahl) {
 					FahrzeugMitSitzPlatzZahl fzg = (FahrzeugMitSitzPlatzZahl) fahrzeug;
 					if(fzg.getSitzPlatzZahl() == Integer.parseInt(wert)) {
-						result.add(fahrzeug);
+						ergebnis.add(fahrzeug);
 					}
 				}
 			}
 		}
 		
-		return result;
+		return ergebnis;
 	}
 
+	/**
+	 * Entfernt / Parkt ein bestimmtes Fahrzeug am Standort aus
+	 * @param kennzeichen Kennzeichen des auszuparkenden Fahrzeuges
+	 * @return das ausgeparkte Fahrzeug, oder null sofern das Fahrzeug mit dem Kennzeichen nicht gefunden wurde
+	 */
 	public Fahrzeug fahrzeugAusparken(String kennzeichen) {
-
 		for (Fahrzeug fahrzeug : stellplaetzeKLTR) {
 			if(fahrzeug.getKennzeichen().equalsIgnoreCase(kennzeichen)) {
 				stellplaetzeKLTR.remove(stellplaetzeKLTR.indexOf(fahrzeug));
-				if(defektSetzen) {
-					fahrzeug.setDefekt(true);
-				}
 				return fahrzeug;
 			}
 		}
+		
 		for (Fahrzeug fahrzeug : stellplaetzeSPKOLU) {
 			if(fahrzeug.getKennzeichen().equalsIgnoreCase(kennzeichen)) {
-				System.out.println(stellplaetzeSPKOLU.size());
 				stellplaetzeSPKOLU.remove(stellplaetzeSPKOLU.indexOf(fahrzeug));
-				System.out.println(stellplaetzeSPKOLU.size());
-				if(defektSetzen) {
-					fahrzeug.setDefekt(true);
-				}
 				return fahrzeug;
 			}
 		}
+		
 		return null;
 	}
 	
+	/**
+	 * Setzt die Eigenschaft -defekt- eines bestimmten Fahrzeuges auf true
+	 * @param kennzeichen Kennzeichen des Fahrzeuges
+	 * @return Ergebnis der Operation, true wenn alles funktioniert hat, false wenn das Fahrzeug nicht gefunden wurde
+	 */
 	public boolean fahrzeugAufDefektSetzen(String kennzeichen) {
 		for (Fahrzeug fahrzeug : stellplaetzeKLTR) {
 			if(fahrzeug.getKennzeichen().equalsIgnoreCase(kennzeichen)) {
@@ -224,46 +185,70 @@ public class Standort {
 				return true;
 			}
 		}
+		
 		for (Fahrzeug fahrzeug : stellplaetzeSPKOLU) {
 			if(fahrzeug.getKennzeichen().equalsIgnoreCase(kennzeichen)) {
 				fahrzeug.setDefekt(true);
 				return true;
 			}
 		}
+		
 		return false;
 	}
 
-	public String getZufaelligesFahrzeug(fahrzeugKlasse klasse) {		
+	/**
+	 * Findet das Fahrzeug einer bestimmten Klasse mit dem geringsten Kilometerstand am Standort und parkt es aus
+	 * @param klasse Gewünschte Fahrzeugklasse
+	 * @return Das ausgeparkte Fahrzeug falls alles funktioniert hat, null falls kein Solches Fahrzeug gefunden wurde
+	 */
+	public Fahrzeug klassenFahrzeugAusparkenMitGeringstemKilometerstand(fahrzeugKlasse klasse) {		
+		Fahrzeug ergebnis = null;
 		switch(klasse) {
 			case SP, KO, LU:
 				for (Fahrzeug fahrzeug : stellplaetzeSPKOLU) {
 					if(fahrzeug.getKlasse() == klasse && !fahrzeug.isDefekt()) {
-						return fahrzeug.getKennzeichen();
+						if(ergebnis == null) ergebnis = fahrzeug;
+						if(fahrzeug.getKmStand() < ergebnis.getKmStand()) {
+							ergebnis = fahrzeug;
+						}
 					}
 				}
-				break;
+				stellplaetzeSPKOLU.remove(stellplaetzeSPKOLU.indexOf(ergebnis));
+				return ergebnis;
 			case KL, TR:
 				for (Fahrzeug fahrzeug : stellplaetzeKLTR) {
 					if(fahrzeug.getKlasse() == klasse && !fahrzeug.isDefekt()) {
-						return fahrzeug.getKennzeichen();
+						if(ergebnis == null) ergebnis = fahrzeug;
+						if(fahrzeug.getKmStand() < ergebnis.getKmStand()) {
+							ergebnis = fahrzeug;
+						}
 					}
 				}
-				break;
+				stellplaetzeKLTR.remove(stellplaetzeKLTR.indexOf(ergebnis));
+				return ergebnis;
 		}
+		
 		return null;
 	}
 
+	/**
+	 * Findet ein Fahrzeug am Standort anhand des Kennzeichens
+	 * @param kennzeichen Kennzeichen des gesuchten Fahrzeuges
+	 * @return Das Fahrzeug wenn alles funktioniert hat, null wenn das Fahrzeug nicht gefunden wurde
+	 */
 	public Fahrzeug getFahrzeug(String kennzeichen) {
 		for (Fahrzeug fahrzeug : stellplaetzeKLTR) {
 			if(fahrzeug.getKennzeichen().equalsIgnoreCase(kennzeichen)) {
 				return fahrzeug;
 			}
 		}
+		
 		for (Fahrzeug fahrzeug : stellplaetzeSPKOLU) {
 			if(fahrzeug.getKennzeichen().equalsIgnoreCase(kennzeichen)) {
 				return fahrzeug;
 			}
 		}
+		
 		return null;
 	}
 

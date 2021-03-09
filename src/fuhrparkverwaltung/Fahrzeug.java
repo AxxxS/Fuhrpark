@@ -1,22 +1,21 @@
 package fuhrparkverwaltung;
 
 /**
- * Standard Fahrzeug Klasse
+ * Enthält alle Informationen zu einem Fahrzeug
  */
-public class Fahrzeug {
+public abstract class Fahrzeug {
 	private int kmStand;
 	private boolean defekt;
 	private String kennzeichen;
 	private fahrzeugKlasse klasse;
 
 	/**
-	 * Erstellt ein Fahrzeug, welches keine weitere Spezifikation als die Klasse hat.
+	 * Erstellt ein neues Fahrzeug anhand der übergebenen Eigenschaften
 	 *
-	 * @param kmStand int den aktuellen Kilometerstand des Fahrzeugs
-	 * @param kennzeichen  ein Kennzeichen
-	 * @param klasse  Die Klasse des Fahrzeuges
+	 * @param kmStand der aktuelle Kilometerstand
+	 * @param kennzeichen  das Kennzeichen
+	 * @param klasse  die Fahrzeugklasse
 	 */
-
 	public Fahrzeug(int kmStand, String kennzeichen, fahrzeugKlasse klasse) {
 		this.kmStand = kmStand;
 		this.defekt = false;
@@ -44,16 +43,8 @@ public class Fahrzeug {
 		return kennzeichen;
 	}
 
-	public void setKennzeichen(String kennzeichen) {
-		this.kennzeichen = kennzeichen;
-	}
-
 	public fahrzeugKlasse getKlasse() {
 		return klasse;
 	}
 
-	public void setKlasse(fahrzeugKlasse klasse) {
-		this.klasse = klasse;
-	}
-	
 }
