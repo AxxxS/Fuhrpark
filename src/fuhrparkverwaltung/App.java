@@ -118,6 +118,8 @@ public class App {
 				} else {
 					System.out.println("Bitte beachten Sie die Befehlsstruktur: v <fahrzeugKlasse> <StartStandort> <ZielStandort>");
 				}
+			} else if(eingabe.equalsIgnoreCase("b") || eingabe.equalsIgnoreCase("beenden")){
+				beendet = true;
 			} else {
 				hilfeTextAusgeben();
 			}
@@ -268,7 +270,7 @@ public class App {
 	 */
 	public static void hilfeTextAusgeben() {
 		System.out.println();
-		System.out.println("Sie können die folgenden Befehle verwenden:");
+		System.out.println("Sie können die folgenden Befehle verwenden, um das Programm zu beenden verwenden Sie 'beenden' (b):");
 		System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("1. uebersicht (ü): Geben Sie alle Standorte sowie die Anzahl und Art der dort geparkten Fahrzeuge aus");
 		System.out.println("2. maxKilometer (m): Geben Sie die 10 Fahrzeuge mit den größten Kilometerstaenden aus");

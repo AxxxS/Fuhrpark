@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"fuhrparkverwaltung","l":"fuhrparkverwaltung"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"fuhrparkverwaltung"}];updateSearchResults();

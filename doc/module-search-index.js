@@ -1,1 +1,1 @@
-moduleSearchIndex = [{"l":"fuhrparkverwaltung"}];updateSearchResults();
+moduleSearchIndex = [];updateSearchResults();
