@@ -84,6 +84,15 @@ public class App {
 			} else if(eingabe.startsWith("defektSetzen") || eingabe.startsWith("defekt") || eingabe.startsWith("d") || eingabe.startsWith("3")) {
 				String kennzeichen = eingabe.split(" ")[1];
 				defektUndAustauschen(firma, kennzeichen);
+			} else if(eingabe.startsWith("verschiebenKennzeichen") || eingabe.startsWith("vk")) {
+				String[] teile = eingabe.split(" ");
+				if(teile.length == 3) {
+					String kennzeichen = eingabe.split(" ")[1];
+					char standort = eingabe.split(" ")[2].charAt(0);
+					verschieben(firma, kennzeichen, standort);
+				} else {
+					System.out.println("Bitte beachten Sie die Befehlsstruktur: vk <kennzeichen> <ZielStandort>");
+				}
 			} else if(eingabe.startsWith("verschieben") || eingabe.startsWith("v")) {
 				String[] teile = eingabe.split(" ");
 				if(teile.length == 4) {
@@ -106,13 +115,8 @@ public class App {
 						char zuStandort = eingabe.split(" ")[3].charAt(0);
 						verschieben(firma, fzKlasse, vonStandort, zuStandort);
 					}
-				}
-			} else if(eingabe.startsWith("verschiebenKennzeichen") || eingabe.startsWith("vk")) {
-				String[] teile = eingabe.split(" ");
-				if(teile.length == 3) {
-					String kennzeichen = eingabe.split(" ")[1];
-					char standort = eingabe.split(" ")[2].charAt(0);
-					verschieben(firma, kennzeichen, standort);
+				} else {
+					System.out.println("Bitte beachten Sie die Befehlsstruktur: v <fahrzeugKlasse> <StartStandort> <ZielStandort>");
 				}
 			} else {
 				hilfeTextAusgeben();
@@ -266,12 +270,12 @@ public class App {
 		System.out.println();
 		System.out.println("Sie können die folgenden Befehle verwenden:");
 		System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
-		System.out.println("1. uebersicht: Geben Sie alle Standorte sowie die Anzahl und Art der dort geparkten Fahrzeuge aus");
-		System.out.println("2. maxKilometer: Geben Sie die 10 Fahrzeuge mit den größten Kilometerstaenden aus");
-		System.out.println("3. ausgabe <attribut> <wert>: Geben Sie alle Fahrzeuge mit einem bestimmten Wert im Sonderattribut aus");
-		System.out.println("4. defektSetzen <kennzeichen>: Setzen Sie ein Fahrzeug auf defekt und tauschen sie es mit einem Fahrzeug des gleichen Types vom zentralen Parkplatz aus.");
-		System.out.println("5. verschiebenKennzeichen <kennzeichen> <neuerStandort>: Verschieben sie ein bestimmtes Fahrzeug an einen anderen Standort oder auf den zentralen Parkplatz.\n\tEs stehen 'A' bis 'F' und 'P' (zentraler Parkplatz) als Standorte zur Verfügung.");
-		System.out.println("5. verschieben <fahrzeugKlasse> <alterStandort> <neuerStandort>: Verschieben das Fahrzeug mit dem geringsten Kilometerstand einer Klasse an einem Standort an einen anderen Standort oder auf den zentralen Parkplatz.\n\tMögliche Fahrzeugklassen sind: sp bzw. sportwagen, ko bzw. kompaktwagen, lu bzw. luxusklasse, kl bzw. kleinbus und tr bzw. transporter\n\tEs stehen 'A' bis 'F' und 'P' (zentraler Parkplatz) als Standorte zur Verfügung.");
+		System.out.println("1. uebersicht (ü): Geben Sie alle Standorte sowie die Anzahl und Art der dort geparkten Fahrzeuge aus");
+		System.out.println("2. maxKilometer (m): Geben Sie die 10 Fahrzeuge mit den größten Kilometerstaenden aus");
+		System.out.println("3. ausgabe (a) <attribut> <wert>: Geben Sie alle Fahrzeuge mit einem bestimmten Wert im Sonderattribut aus");
+		System.out.println("4. defektSetzen (d) <kennzeichen>: Setzen Sie ein Fahrzeug auf defekt und tauschen sie es mit einem Fahrzeug des gleichen Types vom zentralen Parkplatz aus.");
+		System.out.println("5. verschiebenKennzeichen (vk) <kennzeichen> <neuerStandort>: Verschieben sie ein bestimmtes Fahrzeug an einen anderen Standort oder auf den zentralen Parkplatz.\n\tEs stehen 'A' bis 'F' und 'P' (zentraler Parkplatz) als Standorte zur Verfügung.");
+		System.out.println("5. verschieben (v) <fahrzeugKlasse> <alterStandort> <neuerStandort>: Verschieben das Fahrzeug mit dem geringsten Kilometerstand einer Klasse an einem Standort an einen anderen Standort oder auf den zentralen Parkplatz.\n\tMögliche Fahrzeugklassen sind: sp bzw. sportwagen, ko bzw. kompaktwagen, lu bzw. luxusklasse, kl bzw. kleinbus und tr bzw. transporter\n\tEs stehen 'A' bis 'F' und 'P' (zentraler Parkplatz) als Standorte zur Verfügung.");
 		System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println();
 	}
