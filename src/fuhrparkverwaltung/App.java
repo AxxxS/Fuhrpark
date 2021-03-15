@@ -55,7 +55,7 @@ public class App {
 		
 		Firma firma = new Firma(standorte);
 		
-		System.out.println("Herzlich Willkommen in Ihrer Fuhrparkverwaltung!");
+		System.out.println("Herzlich Willkommen bei FUPA!");
 		hilfeTextAusgeben();
 		
 		Scanner sc = new Scanner(System.in);
@@ -258,6 +258,7 @@ public class App {
 		}
 	}
 	
+	
 	/**
 	 * Verschiebt ein Fahrzeug einer bestimmten Fahrzeugklasse von einem Standort an einen Anderen
 	 * @param firma eine Firma, die ein solches Fahrzeug besitzt
@@ -308,6 +309,7 @@ public class App {
 		System.out.println("4. defektSetzen (d) <kennzeichen>: Setzen Sie ein Fahrzeug auf defekt und tauschen sie es mit einem Fahrzeug des gleichen Types vom zentralen Parkplatz aus.");
 		System.out.println("5. verschiebenKennzeichen (vk) <kennzeichen> <neuerStandort>: Verschieben sie ein bestimmtes Fahrzeug an einen anderen Standort oder auf den zentralen Parkplatz.\n\tEs stehen 'A' bis 'F' und 'P' (zentraler Parkplatz) als Standorte zur Verfügung.");
 		System.out.println("5. verschieben (v) <fahrzeugKlasse> <alterStandort> <neuerStandort>: Verschieben das Fahrzeug mit dem geringsten Kilometerstand einer Klasse an einem Standort an einen anderen Standort oder auf den zentralen Parkplatz.\n\tMögliche Fahrzeugklassen sind: sp bzw. sportwagen, ko bzw. kompaktwagen, lu bzw. luxusklasse, kl bzw. kleinbus und tr bzw. transporter\n\tEs stehen 'A' bis 'F' und 'P' (zentraler Parkplatz) als Standorte zur Verfügung.");
+		System.out.println("6. finden (f) <kennzeichen>: Finden Sie den Standort eines bestimmten Fahrzeuges");
 		System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println();
 	}
