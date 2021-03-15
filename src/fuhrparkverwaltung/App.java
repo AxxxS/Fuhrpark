@@ -68,14 +68,14 @@ public class App {
 				maxKilometer(firma);
 			} else if (teile.length == 3 && (teile[0].equalsIgnoreCase("ausgabe") || teile[0].equalsIgnoreCase("a"))) {
 				Class gesuchteKlasse = null;
-				boolean unmöglicherWert = false;
+				boolean unmoeglicherWert = false;
 				switch(teile[1]) {
 					case "PS-Zahl":
 						if(teile[2].matches("\\d+")) {
 							gesuchteKlasse = FahrzeugMitPS.class;
 						} else {
 							System.out.println("Der angegebenen Suchwert ist keine Ganzzahl!");
-							unmöglicherWert = true;
+							unmoeglicherWert = true;
 						}
 						break;
 					case "Farbe":
@@ -86,14 +86,14 @@ public class App {
 							gesuchteKlasse = FahrzeugMitSitzPlatzZahl.class;
 						} else {
 							System.out.println("Der angegebenen Suchwert ist keine Ganzzahl!");
-							unmöglicherWert = true;
+							unmoeglicherWert = true;
 						}
 						break;
 				}
 				if(gesuchteKlasse != null) {
 					fahrzeugeMitAttributUndWert(firma, gesuchteKlasse, teile[2]);
 				} else {
-					if(!unmöglicherWert) {
+					if(!unmoeglicherWert) {
 						System.out.println("Das gesuchte Attribut konnte keiner Fahrzeugklasse zugeordnet werden.");
 					}
 				}
