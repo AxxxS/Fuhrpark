@@ -61,42 +61,51 @@ public class App {
 		Scanner sc = new Scanner(System.in);
 		while(!beendet) {
 			String eingabe = sc.nextLine();
-			
-			if(eingabe.equalsIgnoreCase("uebersicht") || eingabe.equalsIgnoreCase("0") || eingabe.equalsIgnoreCase("ü")) {
+			String[] teile = eingabe.split(" ");
+			if(teile.length == 1 && (teile[0].equalsIgnoreCase("uebersicht") || teile[0].equalsIgnoreCase("ü"))) {
 				uebersichtWoWelcheFahrzeugArt(firma);
-			} else if (eingabe.equalsIgnoreCase("maxKilometer") || eingabe.equalsIgnoreCase("1") || eingabe.equalsIgnoreCase("m")){
+			} else if (teile.length == 1 && (teile[0].equalsIgnoreCase("maxKilometer") || teile[0].equalsIgnoreCase("m"))){
 				maxKilometer(firma);
-			} else if (eingabe.startsWith("ausgabe") || eingabe.startsWith("a") || eingabe.startsWith("2")) {
+			} else if (teile.length == 3 && (teile[0].equalsIgnoreCase("ausgabe") || teile[0].equalsIgnoreCase("a"))) {
 				Class gesuchteKlasse = null;
-				String[] teile = eingabe.split(" ");
+				boolean unmöglicherWert = false;
 				switch(teile[1]) {
 					case "PS-Zahl":
-						gesuchteKlasse = FahrzeugMitPS.class;
+						if(teile[2].matches("\\d+")) {
+							gesuchteKlasse = FahrzeugMitPS.class;
+						} else {
+							System.out.println("Der angegebenen Suchwert ist keine Ganzzahl!");
+							unmöglicherWert = true;
+						}
 						break;
 					case "Farbe":
 						gesuchteKlasse = FahrzeugMitFarbe.class;
 						break;
 					case "Sitzplatz-Zahl":
-						gesuchteKlasse = FahrzeugMitSitzPlatzZahl.class;
+						if(teile[2].matches("\\d+")) {
+							gesuchteKlasse = FahrzeugMitSitzPlatzZahl.class;
+						} else {
+							System.out.println("Der angegebenen Suchwert ist keine Ganzzahl!");
+							unmöglicherWert = true;
+						}
 						break;
 				}
-				fahrzeugeMitAttributUndWert(firma, gesuchteKlasse, teile[2]);
-			} else if(eingabe.startsWith("defektSetzen") || eingabe.startsWith("defekt") || eingabe.startsWith("d") || eingabe.startsWith("3")) {
-				String kennzeichen = eingabe.split(" ")[1];
-				defektUndAustauschen(firma, kennzeichen);
-			} else if(eingabe.startsWith("verschiebenKennzeichen") || eingabe.startsWith("vk")) {
-				String[] teile = eingabe.split(" ");
-				if(teile.length == 3) {
-					String kennzeichen = eingabe.split(" ")[1];
-					char standort = eingabe.split(" ")[2].charAt(0);
-					verschieben(firma, kennzeichen, standort);
+				if(gesuchteKlasse != null) {
+					fahrzeugeMitAttributUndWert(firma, gesuchteKlasse, teile[2]);
 				} else {
-					System.out.println("Bitte beachten Sie die Befehlsstruktur: vk <kennzeichen> <ZielStandort>");
+					if(!unmöglicherWert) {
+						System.out.println("Das gesuchte Attribut konnte keiner Fahrzeugklasse zugeordnet werden.");
+					}
 				}
-			} else if(eingabe.startsWith("verschieben") || eingabe.startsWith("v")) {
-				String[] teile = eingabe.split(" ");
-				if(teile.length == 4) {
-					String klasse = eingabe.split(" ")[1];
+			} else if(teile.length == 2 && (teile[0].equalsIgnoreCase("defektSetzen") || teile[0].equalsIgnoreCase("defekt") || teile[0].equalsIgnoreCase("d"))) {
+				String kennzeichen = teile[1];
+				defektUndAustauschen(firma, kennzeichen);
+			} else if(teile.length == 3 && (teile[0].equalsIgnoreCase("verschiebenKennzeichen") || teile[0].equalsIgnoreCase("vk"))) {
+				String kennzeichen = teile[1];
+				char standort = teile[2].charAt(0);
+				verschieben(firma, kennzeichen, standort);
+			} else if(teile.length == 4 && (teile[0].equalsIgnoreCase("verschieben") || teile[0].equalsIgnoreCase("v"))) {
+					String klasse = teile[1];
 					fahrzeugKlasse fzKlasse = null;
 					if(klasse.equalsIgnoreCase("sp") || klasse.equalsIgnoreCase("sportwagen")) { 
 						fzKlasse = fahrzeugKlasse.SP;
@@ -111,19 +120,37 @@ public class App {
 					}
 					
 					if(fzKlasse != null) {
-						char vonStandort = eingabe.split(" ")[2].charAt(0);
-						char zuStandort = eingabe.split(" ")[3].charAt(0);
+						char vonStandort = teile[2].charAt(0);
+						char zuStandort = teile[3].charAt(0);
 						verschieben(firma, fzKlasse, vonStandort, zuStandort);
+					} else {
+						System.out.println("Die angegebene Fahrzeugklasse existiert nicht!");
 					}
-				} else {
-					System.out.println("Bitte beachten Sie die Befehlsstruktur: v <fahrzeugKlasse> <StartStandort> <ZielStandort>");
-				}
-			} else if(eingabe.equalsIgnoreCase("b") || eingabe.equalsIgnoreCase("beenden")){
+			} else if(teile.length == 2 && (teile[0].equalsIgnoreCase("finde") || teile[0].equalsIgnoreCase("f"))){
+				String kennzeichen = teile[1];
+				findeFahrzeug(firma, kennzeichen);
+			} else if(teile.length == 1 && (teile[0].equalsIgnoreCase("b") || teile[0].equalsIgnoreCase("beenden"))){
 				beendet = true;
 			} else {
 				hilfeTextAusgeben();
 			}
 		}
+	}
+
+
+	/**
+	 * Gibt in der Konsole den Namen des Standortes, an dem sich ein Fahrzeug befinden, aus
+	 * @param firma eine Firma, in der nach dem Fahrzeug gesucht werden soll
+	 * @param kennzeichen das Kennzeichen des Fahrzeuges
+	 */
+	private static void findeFahrzeug(Firma firma, String kennzeichen) {
+		Standort gefunden = firma.getFahrzeugStandort(kennzeichen);
+		if(gefunden != null) {
+			System.out.println("Das Fahrzeug mit dem Kennzeichen " + kennzeichen + " befindet sich am Standort " + gefunden.getName());
+		} else {
+			System.out.println("Das Fahrzeug wurde nicht gefunden!");
+		}
+		
 	}
 
 
@@ -166,11 +193,14 @@ public class App {
 	 */
 	private static void fahrzeugeMitAttributUndWert(Firma firma, Class gesuchteKlasse, String wert) {
 		ArrayList<Fahrzeug> ergebnis = firma.getFahrzeugeMitAttributUndWert(gesuchteKlasse, wert);
-		
-		System.out.println("Die folgenden Fahrzeuge haben den gesuchten Wert:");
-		for (Fahrzeug fahrzeug : ergebnis) {
-			System.out.println("-------------------------");
-			System.out.println(fahrzeug);
+			if(ergebnis.size() > 0) {
+			System.out.println("Die folgenden Fahrzeuge haben den gesuchten Wert:");
+			for (Fahrzeug fahrzeug : ergebnis) {
+				System.out.println("-------------------------");
+				System.out.println(fahrzeug);
+			}
+		} else {
+			System.out.println("Kein Fahrzeug hat den angegebenen Attributwert.");
 		}
 	}
 	

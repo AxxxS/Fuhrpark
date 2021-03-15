@@ -118,7 +118,7 @@ public class Firma {
 	 * @param kennzeichen Kennzeichen des Fahrzeuges
 	 * @return Standort des Fahrzeuges
 	 */
-	private Standort getFahrzeugStandort(String kennzeichen) {
+	public Standort getFahrzeugStandort(String kennzeichen) {
 		for (Standort standort : standorte) {
 			if(standort.getFahrzeug(kennzeichen) != null) {
 				return standort;
