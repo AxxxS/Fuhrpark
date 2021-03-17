@@ -149,28 +149,29 @@ public class Firma {
 		Fahrzeug fahrzeug;
 		
 		standortVorher = getFahrzeugStandort(kennzeichen);
-		standortNachher = getStandort(zielStandortName);
-		
-		if(standortVorher == standortNachher) return -1; //Steht schon richtig
-		
-		if(standortVorher != null && standortNachher != null) {
-			fahrzeug = standortVorher.fahrzeugAusparken(kennzeichen);
-			int distanz = standortAbstaende.berechneAbstand(standortVorher.getName(), standortNachher.getName());
+		if(standortVorher != null) {
+			standortNachher = getStandort(zielStandortName);
 			
-			if(standortNachher.fahrzeugParken(fahrzeug)) {
-				if(!fahrzeug.isDefekt()) {
-					fahrzeug.setKmStand(fahrzeug.getKmStand() + distanz);
+			if(standortVorher == standortNachher) return -1; //Steht schon richtig
+			
+			if(standortVorher != null && standortNachher != null) {
+				fahrzeug = standortVorher.fahrzeugAusparken(kennzeichen);
+				int distanz = standortAbstaende.berechneAbstand(standortVorher.getName(), standortNachher.getName());
+				
+				if(standortNachher.fahrzeugParken(fahrzeug)) {
+					if(!fahrzeug.isDefekt()) {
+						fahrzeug.setKmStand(fahrzeug.getKmStand() + distanz);
+					}
+					return 1; //Hat geklappt
 				}
-				return 1; //Hat geklappt
-			}
-			
-			else {
-				standortVorher.fahrzeugParken(fahrzeug);
-				return -2; //Kein Platz
+				
+				else {
+					standortVorher.fahrzeugParken(fahrzeug);
+					return -2; //Kein Platz
+				}
 			}
 		}
-		
-		return 0; //Standort nicht gefunden
+		return 0; //Fahrzeug / Standort nicht gefunden
 	}
 
 	/**
@@ -191,7 +192,7 @@ public class Firma {
 		standortVorher = getStandort(vonStandort);
 		standortNachher = getStandort(zuStandort);
 		
-		if(standortVorher == standortNachher) return -1; //Steht schon richtig
+		if(standortVorher == standortNachher && standortVorher != null) return -1; //Steht schon richtig
 		
 		if(standortVorher != null && standortNachher != null) {
 			fahrzeug = standortVorher.klassenFahrzeugAusparkenMitGeringstemKilometerstand(klasse);
