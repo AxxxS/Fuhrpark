@@ -33,6 +33,7 @@ public class Firma {
 
 	/**
 	 * Gibt alle Fahrzeuge die auf die Standorte der Firma verteilt sind zurück.
+	 * @param nachKilometerStandSortieren gibt an, ob die Fahrzeuge nach ihrem Kilometerstand sortiert (aufsteigend) werden sollen
 	 * @return Die Liste aller Fahrzeuge
 	 */
 	public ArrayList<Fahrzeug> getAlleFahrzeuge(boolean nachKilometerStandSortieren) {
