@@ -34,22 +34,45 @@ public class App {
 			
 			Random zufallsGenerator = new Random();
 			
-			sportWagen1 = new FahrzeugMitPS(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), zufallsGenerator.nextInt(400) + 200, fahrzeugKlasse.SP);
-			sportWagen2 = new FahrzeugMitPS(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), zufallsGenerator.nextInt(400) + 200, fahrzeugKlasse.SP);
-			kompaktWagen1 = new FahrzeugMitFarbe(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), "rot", fahrzeugKlasse.KO);
-			kompaktWagen2 = new FahrzeugMitFarbe(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), "blau", fahrzeugKlasse.KO);
-			kompaktWagen3 = new FahrzeugMitFarbe(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), "gelb", fahrzeugKlasse.KO);
-			luxusWagen1 = new FahrzeugMitFarbe(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), "gold", fahrzeugKlasse.LU);
-			kleinBus1 = new FahrzeugMitSitzPlatzZahl(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), zufallsGenerator.nextInt(10) + 6, fahrzeugKlasse.KL);
-			
-			vorher.fahrzeugParken(sportWagen1);
-			vorher.fahrzeugParken(sportWagen2);
-			vorher.fahrzeugParken(kompaktWagen1);
-			vorher.fahrzeugParken(kompaktWagen2);
-			vorher.fahrzeugParken(kompaktWagen3);
-			vorher.fahrzeugParken(luxusWagen1);
-			vorher.fahrzeugParken(kleinBus1);
-			
+			if(i != 6) {
+				sportWagen1 = new FahrzeugMitPS(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), zufallsGenerator.nextInt(400) + 200, fahrzeugKlasse.SP);
+				sportWagen2 = new FahrzeugMitPS(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), zufallsGenerator.nextInt(400) + 200, fahrzeugKlasse.SP);
+				kompaktWagen1 = new FahrzeugMitFarbe(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), "rot", fahrzeugKlasse.KO);
+				kompaktWagen2 = new FahrzeugMitFarbe(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), "blau", fahrzeugKlasse.KO);
+				kompaktWagen3 = new FahrzeugMitFarbe(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), "gelb", fahrzeugKlasse.KO);
+				luxusWagen1 = new FahrzeugMitFarbe(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), "gold", fahrzeugKlasse.LU);
+				kleinBus1 = new FahrzeugMitSitzPlatzZahl(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), zufallsGenerator.nextInt(10) + 6, fahrzeugKlasse.KL);
+				
+				vorher.fahrzeugParken(sportWagen1);
+				vorher.fahrzeugParken(sportWagen2);
+				vorher.fahrzeugParken(kompaktWagen1);
+				vorher.fahrzeugParken(kompaktWagen2);
+				vorher.fahrzeugParken(kompaktWagen3);
+				vorher.fahrzeugParken(luxusWagen1);
+				vorher.fahrzeugParken(kleinBus1);
+			} else {
+				for(int j = 0; j<8; j++) {
+					sportWagen1 = new FahrzeugMitPS(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), zufallsGenerator.nextInt(400) + 200, fahrzeugKlasse.SP);
+					sportWagen2 = new FahrzeugMitPS(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), zufallsGenerator.nextInt(400) + 200, fahrzeugKlasse.SP);
+					kompaktWagen1 = new FahrzeugMitFarbe(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), "rot", fahrzeugKlasse.KO);
+					kompaktWagen2 = new FahrzeugMitFarbe(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), "blau", fahrzeugKlasse.KO);
+					kompaktWagen3 = new FahrzeugMitFarbe(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), "gelb", fahrzeugKlasse.KO);
+					luxusWagen1 = new FahrzeugMitFarbe(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), "gold", fahrzeugKlasse.LU);
+					kleinBus1 = new FahrzeugMitSitzPlatzZahl(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), zufallsGenerator.nextInt(10) + 6, fahrzeugKlasse.KL);
+					
+					vorher.fahrzeugParken(sportWagen1);
+					vorher.fahrzeugParken(sportWagen2);
+					vorher.fahrzeugParken(kompaktWagen1);
+					vorher.fahrzeugParken(kompaktWagen2);
+					vorher.fahrzeugParken(kompaktWagen3);
+					vorher.fahrzeugParken(luxusWagen1);
+					vorher.fahrzeugParken(kleinBus1);
+				}
+				Fahrzeug transporter1 = new FahrzeugMitSitzPlatzZahl(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), zufallsGenerator.nextInt(10) + 6, fahrzeugKlasse.TR);
+				Fahrzeug transporter2 = new FahrzeugMitSitzPlatzZahl(zufallsGenerator.nextInt(99999) + 1, generiereKennzeichen(), zufallsGenerator.nextInt(10) + 6, fahrzeugKlasse.TR);
+				vorher.fahrzeugParken(transporter1);
+				vorher.fahrzeugParken(transporter2);
+			}
 			standorte.set(i, vorher);
 		}
 		
