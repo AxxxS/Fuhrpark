@@ -213,7 +213,9 @@ public class Standort {
 						}
 					}
 				}
-				stellplaetzeSPKOLU.remove(stellplaetzeSPKOLU.indexOf(ergebnis));
+				if(ergebnis != null) {
+					stellplaetzeSPKOLU.remove(stellplaetzeSPKOLU.indexOf(ergebnis));
+				}
 				return ergebnis;
 			case KL, TR:
 				for (Fahrzeug fahrzeug : stellplaetzeKLTR) {
@@ -224,10 +226,11 @@ public class Standort {
 						}
 					}
 				}
-				stellplaetzeKLTR.remove(stellplaetzeKLTR.indexOf(ergebnis));
+				if(ergebnis != null) {
+					stellplaetzeKLTR.remove(stellplaetzeKLTR.indexOf(ergebnis));
+				}
 				return ergebnis;
 		}
-		
 		return null;
 	}
 

@@ -3,6 +3,7 @@ package fuhrparkverwaltung;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 /**
  * Oberste Datenstruktur der Fuhrparkverwaltung, die alle Standorte und von der App aufzurufenden Methoden enthält
  */
@@ -34,12 +35,15 @@ public class Firma {
 	 * Gibt alle Fahrzeuge die auf die Standorte der Firma verteilt sind zurück.
 	 * @return Die Liste aller Fahrzeuge
 	 */
-	public ArrayList<Fahrzeug> getAlleFahrzeuge() {
+	public ArrayList<Fahrzeug> getAlleFahrzeuge(boolean nachKilometerStandSortieren) {
 		ArrayList<Fahrzeug> ergebnis = new ArrayList<>(); 
 		for (Standort standort : standorte) {
 			for(Fahrzeug fahrzeug: standort.getAlleFahrzeuge()) {
 				ergebnis.add(fahrzeug);
 			}
+		}
+		if(nachKilometerStandSortieren) {
+			ergebnis.sort((fahrzeug1, fahrzeug2) -> Integer.compare((fahrzeug2.getKmStand()), fahrzeug1.getKmStand()));
 		}
 		return ergebnis;
 	}
@@ -153,7 +157,9 @@ public class Firma {
 			int distanz = standortAbstaende.berechneAbstand(standortVorher.getName(), standortNachher.getName());
 			
 			if(standortNachher.fahrzeugParken(fahrzeug)) {
-				fahrzeug.setKmStand(fahrzeug.getKmStand() + distanz);
+				if(!fahrzeug.isDefekt()) {
+					fahrzeug.setKmStand(fahrzeug.getKmStand() + distanz);
+				}
 				return 1; //Hat geklappt
 			}
 			

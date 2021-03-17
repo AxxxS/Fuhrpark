@@ -62,7 +62,7 @@ public class App {
 		while(!beendet) {
 			String eingabe = sc.nextLine();
 			String[] teile = eingabe.split(" ");
-			if(teile.length == 1 && (teile[0].equalsIgnoreCase("uebersicht") || teile[0].equalsIgnoreCase("ü"))) {
+			if(teile.length == 1 && (teile[0].equalsIgnoreCase("uebersicht") || teile[0].equalsIgnoreCase("u"))) {
 				uebersichtWoWelcheFahrzeugArt(firma);
 			} else if (teile.length == 1 && (teile[0].equalsIgnoreCase("maxKilometer") || teile[0].equalsIgnoreCase("m"))){
 				maxKilometer(firma);
@@ -176,8 +176,7 @@ public class App {
 	  * @param firma eine Firma, von welcher die Liste ausgegeben werden soll
 	  */
 	private static void maxKilometer(Firma firma) {
-		ArrayList<Fahrzeug> ergebnis = firma.getAlleFahrzeuge();
-		ergebnis.sort((fahrzeug1, fahrzeug2) -> Integer.compare((fahrzeug2.getKmStand()), fahrzeug1.getKmStand()));
+		ArrayList<Fahrzeug> ergebnis = firma.getAlleFahrzeuge(true);
 		System.out.println("Die folgenden Fahrzeuge haben die größten Kilometerstände:");
 		for(int i = 0; i<10; i++) {
 			System.out.println(i+1 + ". ----------------------");
@@ -303,7 +302,7 @@ public class App {
 		System.out.println();
 		System.out.println("Sie können die folgenden Befehle verwenden, um das Programm zu beenden verwenden Sie 'beenden' (b):");
 		System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
-		System.out.println("1. uebersicht (ü): Geben Sie alle Standorte sowie die Anzahl und Art der dort geparkten Fahrzeuge aus");
+		System.out.println("1. uebersicht (u): Geben Sie alle Standorte sowie die Anzahl und Art der dort geparkten Fahrzeuge aus");
 		System.out.println("2. maxKilometer (m): Geben Sie die 10 Fahrzeuge mit den größten Kilometerstaenden aus");
 		System.out.println("3. ausgabe (a) <attribut> <wert>: Geben Sie alle Fahrzeuge mit einem bestimmten Wert im Sonderattribut aus");
 		System.out.println("4. defektSetzen (d) <kennzeichen>: Setzen Sie ein Fahrzeug auf defekt und tauschen sie es mit einem Fahrzeug des gleichen Types vom zentralen Parkplatz aus.");
